@@ -8,11 +8,11 @@ document.addEventListener("keyup",movimiento2);
 //Definición de Variables
 
 //Coordenadas de centro de la bola
-var x = 200;
-var y = 100;
+var x = 150;
+var y = 10;
 //diferencial de cambio y velocidad de la bola
-var dx = 5;
-var dy = 5;
+var dx = 2;
+var dy = 2;
 //radio de la bola
 var radio = 10;
 //Dimensiones de la paleta
@@ -25,6 +25,9 @@ var izquierda= false;
 var t =(canva.width/2)-(ancho_paleta/2);
 var u =canva.height - grueso_paleta;
 
+var cubo=true;
+var contador=0;
+
 
 //Funciones
 function dibujar() 
@@ -32,11 +35,15 @@ function dibujar()
 	// Dibuja todo el contenido de el Canvas
 	ctx.clearRect(0,0,canva.width,canva.height);
 	paleta();
+	if (cubo==true) 
+		{
+			bloque();
+		} 
 	if (x+10>canva.width  || x-10<0)
 	{
 		dx=-dx;
 	}
-	if (y+10>canva.height  || y-10<0)
+	if (y-10<0)
 	{
 		dy=-dy;
 	}
@@ -47,6 +54,28 @@ function dibujar()
 	if (izquierda == true  && t>=0)
 	{
 		t=t-3;
+	}
+	if (y + grueso_paleta+5>=canva.height)
+	{
+		if(x>=t && x<= t+ancho_paleta)
+		{
+			dy=-dy;
+		}
+		else if (y + radio/2 >= canva.height && contador==0)
+		{
+			alert("game over");
+			contador +=1 ;
+		}
+	if (y<=45)
+	{
+		if (x>=5 && x<=85 )
+		{
+			cubo=false;
+			clearRect(5,5,80,40);
+			alert("wtf");
+		}
+	}
+
 	}
 	ctx.beginPath();
     ctx.arc(x,y,radio,0,Math.PI*2);
@@ -61,7 +90,7 @@ function paleta()
 {	//dibuja la paleta
 	ctx.beginPath();
 	ctx.rect(t,u,ancho_paleta,grueso_paleta);
-	ctx.fillStyle = "red";
+	ctx.fillStyle = "orange";
 	ctx.fill();
     ctx.closePath();
 }
@@ -88,6 +117,17 @@ function movimiento2(e)
 	{
 		izquierda = false;
 	}
+}
+
+function bloque()
+{
+	//dibuja los bloques
+	ctx.beginPath();
+	ctx.rect(5,5,80,40);
+	ctx.fillStyle = "blue";
+	ctx.fill();
+    ctx.closePath();
+
 }
 
 //Frames por segundo 10 milisegundos
